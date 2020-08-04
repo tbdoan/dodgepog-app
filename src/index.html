@@ -8,12 +8,28 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
     />
     <link rel="stylesheet" href="index.css">
-
+    <script>window.$ = window.jQuery = require('jquery');</script>
     <script defer src="render.js"></script>
   </head>
+
   <body>
-    <h1>💖 Hello python!</h1>
-    <p>Welcome to your Electron application.</p>
-    <button id="startBtn" class="button is-primary">Start</button>
+    <section id="waiting">
+      <div class="hero-body">
+        <div class="container is-fluid">
+          <h1 class="title center-self">Waiting for game to start...</h1>
+          <img class="center-self" src="assets/loading.gif"/>
+        </div>
+      </div>
+    </section>
+
+    <section class="columns is-mobile is-centered is-vcentered" id="players">
+      <div class="column left-column" id="your-team">
+      </div>
+      <div class="column is-one-fifth">
+        <h1 class="title middle-column">VS</h1>
+      </div>
+      <div class="column right-column" id="enemy-team">
+      </div>
+    </section>
   </body>
 </html>

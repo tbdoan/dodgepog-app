@@ -1,6 +1,55 @@
+html {
+  background: url(assets/background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: auto;
-  max-width: 38rem;
+  max-width: 75%;
   padding: 2rem;
 }
+
+#players {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.left-column {
+  color: #0289BB;
+}
+.middle-column {
+  text-align: center;
+}
+
+.right-column {
+  color: #D0302E;
+  text-align: right;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 0px;
+}
+
+.center-self {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.enemy-champs {
+  text-align: right;
+}
+
+article {
+  padding: 0px !important;
+}
+.media {
+  margin-top: 0px !important;
+}
+

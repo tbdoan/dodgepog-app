@@ -11,10 +11,11 @@ def get_champion_name(_id):
     :return: champions name
     """
     all_champion_id = {
+        0: None,
         1: "Annie",
         2: "Olaf",
         3: "Galio",
-        4: "TwistedFate",
+        4: "Twisted Fate",
         5: "XinZhao",
         6: "Urgot",
         7: "LeBlanc",
@@ -31,7 +32,7 @@ def get_champion_name(_id):
         18: "Tristana",
         19: "Warwick",
         20: "Nunu",
-        21: "MissFortune",
+        21: "Miss Fortune",
         22: "Ashe",
         23: "Tryndamere",
         24: "Jax",
@@ -133,7 +134,7 @@ def get_champion_name(_id):
         202: "Jhin",
         203: "Kindred",
         222: "Jinx",
-        223: "TahmKench",
+        223: "Tahm Kench",
         235: "Senna",
         236: "Lucian",
         238: "Zed",
@@ -166,31 +167,29 @@ def get_champion_name(_id):
     return all_champion_id.get(_id)
 
 # fired when LCU API is ready to be used
-@connector.ready
-async def connect(connection):
-    print('LCU API ready.')
+#@connector.ready
+#async def connect(connection):
+    #print('LCU API ready.')
 
 
 # fired when League Client is closed (or disconnected from websocket)
 @connector.close
 async def disconnect(_):
-    print('LCU closed.')
     await connect.stop()
 
 @connector.ws.register('/lol-champ-select/v1/session', event_types=('UPDATE',))
 async def champ_select(connection, event):
+    team1_champ_ids = [p.get('championId') for p in event.data.get('myTeam')]
+    team2_champ_ids = [p.get('championId') for p in event.data.get('theirTeam')]
+
+    all_champ_ids = team1_champ_ids + team2_champ_ids
+    all_champ_names = [get_champion_name(p) for p in all_champ_ids]
+
     champs = {
-        'team1':[None]*5,
-        'team2':[None]*5,
+        'champ_ids':all_champ_ids,
+        'champ_names':all_champ_names,
     }
-    team1_champids = [p.get('championId') for p in event.data.get('myTeam')]
-    team2_champids = [p.get('championId') for p in event.data.get('theirTeam')]
-
-
-    team1_champnames = [get_champion_name(p) for p in team1_champids]
-    team2_champnames = [get_champion_name(p) for p in team2_champids]
-
-    print()
+    print(json.dumps(champs))
 
 connector.start()
 
