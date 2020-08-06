@@ -38,15 +38,8 @@ body {
   text-align: right;
 }
 
-.bold-text {
+.bold-text, .title {
   color: gold;
 }
 
-.media {
-  margin-top: 0vh !important;
-}
-
-.title {
-  color: gold;
-}
 
