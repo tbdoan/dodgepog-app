@@ -1,7 +1,8 @@
-const { data } = require('jquery');
-
 $(function(){
-  $('#players').hide();
+  //uncomment this later
+  //$('#players').hide();
+  //remove following line later
+  $('#waiting').remove();
   for(let i = 1; i <= 5; i++) {
     let template = generateTemplate(i);
     $('#your-team').append(template);
@@ -25,7 +26,7 @@ const generateTemplate = (i) => {
         '</figure>' +
         '<div class="media-content center">' +
           '<div class="content is-small">' +
-            `<p id="champ${i}">` +
+            `<p id="champ${i}" class="bold-text">` +
               `Champion ${i}` +
             '</p>' +
           '</div>' +
@@ -39,7 +40,7 @@ const generateTemplate = (i) => {
       '<article class="media">' +
         '<div class="media-content center">' +
           '<div class="content is-small">' +
-            `<p class="enemy-champs" id="champ${i}">` +
+            `<p class="enemy-champs bold-text" id="champ${i}">` +
               `Champion ${i}` +
             '</p>' +
           '</div>' +

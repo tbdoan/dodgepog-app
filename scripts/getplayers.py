@@ -162,25 +162,29 @@ def get_champion_name(_id):
         875: "Sett",
         876: "Lillia",
 
-
     }
     return all_champion_id.get(_id)
 
 # fired when LCU API is ready to be used
-#@connector.ready
-#async def connect(connection):
-    #print('LCU API ready.')
-
+@connector.ready
+async def connect(connection):
+    res = await connection.request('get','/lol-champ-select/v1/session')
+    if res.status == 200:
+        handleData(await res.json())
 
 # fired when League Client is closed (or disconnected from websocket)
 @connector.close
 async def disconnect(_):
     await connect.stop()
 
-@connector.ws.register('/lol-champ-select/v1/session', event_types=('UPDATE',))
+@connector.ws.register('/lol-champ-select/v1/session', event_types=('UPDATE','DELETE'))
 async def champ_select(connection, event):
-    team1_champ_ids = [p.get('championId') for p in event.data.get('myTeam')]
-    team2_champ_ids = [p.get('championId') for p in event.data.get('theirTeam')]
+    handleData(event.data)
+
+
+def handleData(data: dict) -> None:
+    team1_champ_ids = [p.get('championId') for p in data.get('myTeam')]
+    team2_champ_ids = [p.get('championId') for p in data.get('theirTeam')]
 
     all_champ_ids = team1_champ_ids + team2_champ_ids
     all_champ_names = [get_champion_name(p) for p in all_champ_ids]
