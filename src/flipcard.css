@@ -6,6 +6,10 @@
   perspective: 1000px;
 }
 
+.flip-card.right {
+  margin-left: auto;
+}
+
 .flip-card-inner {
   position: relative;
   width: 100%;
@@ -33,11 +37,21 @@
   color: gold;
 }
 
-.flip-card-back {
+.flip-card-back.blue {
   background-color: #2980b9;
+  text-align: left;
+  padding-left: 1vh;
+}
+
+.content.red {
+  background-color: rgb(211, 79, 79);
+  text-align: right;
+  padding-right: 1vh;
+}
+
+.flip-card-back {
   color: white;
   transform: rotateX(180deg);
-  padding-left: 1vh;
 }
 
 .content {

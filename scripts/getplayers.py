@@ -1,8 +1,34 @@
 import json
-
 from lcu_driver import Connector
+from tensorflow.keras.models import load_model
+import numpy as np
 
 connector = Connector()
+model = load_model('./scripts/champs_model.h5')
+
+#builds the champ mapping
+'''
+# Because the champion id's have spaces between them, we have to condense them
+# to do 1-hot encoding such that every index at the resulting array corresponds
+# to a champion
+
+full_champ_json = requests.get('http://ddragon.leagueoflegends.com/cdn/10.16.1/data/en_US/champion.json') \
+                        .json()['data']
+champ_ids = []
+for value in full_champ_json.values():
+    champ_ids.append(int(value['key']))
+champ_ids.sort()
+
+mapping = [None] * (champ_ids[len(champ_ids)-1] + 1)
+
+for i in range(0,len(champ_ids)):
+    mapping[champ_ids[i]] = i
+
+#returns the index given the champion id
+def get_mapping(i:int) -> int:
+    return(mapping[i])
+'''
+
 
 def get_champion_name(_id):
     """
@@ -159,6 +185,7 @@ def get_champion_name(_id):
         523: "Aphelios",
         518: "Neeko",
         555: "Pyke",
+        777: "Yone",
         875: "Sett",
         876: "Lillia",
 
@@ -180,6 +207,7 @@ async def disconnect(_):
 @connector.ws.register('/lol-champ-select/v1/session', event_types=('UPDATE','DELETE'))
 async def champ_select(connection, event):
     handleData(event.data)
+    #print(json.dumps(event.data, indent=2))
 
 
 def handleData(data: dict) -> None:
@@ -188,14 +216,16 @@ def handleData(data: dict) -> None:
 
     all_champ_ids = team1_champ_ids + team2_champ_ids
     all_champ_names = [get_champion_name(p) for p in all_champ_ids]
-
+    if len(all_champ_ids) == 10:
+        arr = np.array([all_champ_ids])
+        prediction = model.predict(x=arr, batch_size=32, verbose=0)
+    else:
+        prediction = [-1]
     champs = {
         'champ_ids':all_champ_ids,
         'champ_names':all_champ_names,
+        'pred': float(prediction[0]),
     }
     print(json.dumps(champs))
 
 connector.start()
-
-
-

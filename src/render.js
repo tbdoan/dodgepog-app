@@ -1,8 +1,5 @@
 $(function () {
-  //uncomment this later
-  //$('#players').hide();
-  //remove following line later
-  $('#waiting').remove();
+  toggleViews(0);
   for (let i = 1; i <= 5; i++) {
     let template = generateTemplate(i);
     $('#your-team').append(template);
@@ -13,6 +10,18 @@ $(function () {
   }
   start();
 });
+
+const toggleViews = (viewNumber) => {
+  if (viewNumber == 0) {
+    $('#waiting').show();
+    $('#players, #odds-display').hide();
+  } else {
+    $('#waiting').hide();
+    $('#players, #odds-display').show();
+  }
+
+}
+
 const generateTemplate = (i) => {
   let template;
 
@@ -34,10 +43,10 @@ const generateTemplate = (i) => {
             </div>
           </article>
         </div>
-        <div class="flip-card-back">
+        <div class="flip-card-back blue">
           <article class="media">
             <div class="media-content">
-              <div class="content">
+              <div class="content is-small">
                   <p>data</p>
               </div>
             </div>
@@ -47,31 +56,33 @@ const generateTemplate = (i) => {
     </div> `
   }
 
-
   else {
     template = `
-    <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
-        <article class="media">
-          <figure class="media-left">
+    <div class="flip-card right">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <article class="media">
+            <div class="media-content">
+              <div class="content">
+                <p class="right-column" id="champ${i}">
+                  Champion ${i}
+                </p>
+              </div>
+            </div>
+            <figure class="media-right">
               <img class="tile" id="tile${i}" src="https://bulma.io/images/placeholders/128x128.png">
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <p id="champ${i}">
-                Champion ${i}
-              </p>
+            </figure>
+          </article>
+        </div>
+        <div class="flip-card-back red">
+          <article class="media">
+            <div class="media-content">
+              <div class="content is-small red">
+                  <p>data</p>
+              </div>
             </div>
-        </article>
-      </div>
-      <div class="flip-card-back">
-        <article class="media">
-          <div class="media-content">
-            <div class="content">
-                <p>data</p>
-            </div>
-        </article>
+          </article>
+        </div>
       </div>
     </div> `
   }
@@ -93,10 +104,9 @@ async function start() {
 
   pyshell.on('message', function (message) {
     // received a message sent from the Python script (a simple 'print' statement)
+    console.log(message);
     const data = JSON.parse(message);
-    console.log(data);
-    $('#waiting').remove();
-    $('#players').show();
+    toggleViews(1);
     data['champ_names'].map((name, index) => {
       if (name !== null) {
         $(`#champ${index + 1}`).text(name);
@@ -104,6 +114,15 @@ async function start() {
         $(`#tile${index + 1}`).attr('src', `assets/champ_tiles/${name}_0.jpg`)
       }
     })
+    if (data['pred'] > 0) {
+      prediction = `
+                  <p style="color:${data['pred'] > 0.5 ? 'green' : 'red'}">
+                    ${data['pred']}
+                  </p> `;
+      $('#odds').replaceWith(prediction);
+    } else {
+      toggleViews(0);
+    }
   });
 
   // end the input stream and allow the process to exit

@@ -12,6 +12,13 @@ body {
   max-width: 75%;
   padding: 2rem;
 }
+.media-left {
+  margin-right: 8%;
+}
+
+.media-right {
+  margin-left: 8%;
+}
 
 #waiting-text {
   display: block;
@@ -34,9 +41,6 @@ body {
   padding: 0px;
 }
 
-.enemy-champs {
-  text-align: right;
-}
 
 .bold-text, .title {
   color: gold;
