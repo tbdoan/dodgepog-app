@@ -19,7 +19,6 @@ const toggleViews = (viewNumber) => {
     $('#waiting').hide();
     $('#players, #odds-display').show();
   }
-
 }
 
 const generateTemplate = (i) => {
@@ -88,7 +87,7 @@ const generateTemplate = (i) => {
   }
 
   template.id = `slot${i}`;
-  return template
+  return template;
 }
 
 async function start() {
@@ -115,9 +114,9 @@ async function start() {
       }
     })
     if (data['pred'] > 0) {
-      prediction = `
+      const prediction = `
                   <p style="color:${data['pred'] > 0.5 ? 'green' : 'red'}">
-                    ${data['pred']}
+                    ${ data['pred'].toPrecision(2) }
                   </p> `;
       $('#odds').replaceWith(prediction);
     } else {

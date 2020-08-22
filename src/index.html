@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>DodgePOG</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
-    />
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="flipcard.css">
-    <script>window.$ = window.jQuery = require('jquery');</script>
-    <script defer src="render.js"></script>
-  </head>
 
-  <body>
-    <section id="waiting">
-      <div class="hero-body">
-        <div class="container is-fluid">
-          <h1 class="title" id="waiting-text">Waiting for game to start...</h1>
-          <img class="center-self" src="assets/loading.gif"/>
-        </div>
-      </div>
-    </section>
+<head>
+  <meta charset="UTF-8">
+  <title>DodgePOG</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="flipcard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script defer src="render.js"></script>
+</head>
 
-    <section class="columns is-mobile is-centered is-vcentered" id="players">
-      <div class="column left-column" id="your-team">
+<body>
+  <section id="waiting">
+    <div class="hero-body">
+      <div class="container is-fluid">
+        <h1 class="title" id="waiting-text">Waiting for game to start...</h1>
+        <img alt="loading..." class="center-self" src="assets/loading.gif" />
       </div>
-      <div class="column is-one-fifth">
-        <h1 class="title middle-column">VS</h1>
-      </div>
-      <div class="column right-column" id="enemy-team">
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="container is-fluid" id='odds-display'>
-      <div class='title middle-column is-4'>
-        <p class='title is-4'>Odds of winning:</p>
-        <p class='title is-4' id='odds'></p>
+  <section class="columns is-mobile is-centered is-vcentered" id="players">
+    <div class="column left-column" id="your-team">
+    </div>
+    <div class="column is-one-fifth">
+      <div>
+        <h1 class="middle-text middle-column">TOP</h1>
       </div>
-    </section>
-  </body>
+      <div>
+        <h1 class="middle-text middle-column">JUNGLE</h1>
+      </div>
+      <div>
+        <h1 class="middle-text middle-column">MID</h1>
+      </div>
+      <div>
+        <h1 class="middle-text middle-column">BOTTOM</h1>
+      </div>
+      <div>
+        <h1 class="middle-text middle-column">SUPPORT</h1>
+      </div>
+    </div>
+    <div class="column right-column" id="enemy-team">
+    </div>
+  </section>
+
+  <section class="container is-fluid" id='odds-display'>
+    <div class='title middle-column is-4'>
+      <p class='title is-4'>Odds of winning:</p>
+      <p class='title is-4' id='odds'></p>
+    </div>
+  </section>
+</body>
+
 </html>
