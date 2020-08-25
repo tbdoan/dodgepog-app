@@ -1,31 +1,31 @@
 $(function () {
-  toggleViews(0);
-  for (let i = 1; i <= 5; i++) {
-    let template = generateTemplate(i);
-    $('#your-team').append(template);
-  }
-  for (let i = 6; i <= 10; i++) {
-    let template = generateTemplate(i);
-    $('#enemy-team').append(template);
-  }
-  start();
+    toggleViews(0);
+    for (let i = 1; i <= 5; i++) {
+        let template = generateTemplate(i);
+        $('#your-team').append(template);
+    }
+    for (let i = 6; i <= 10; i++) {
+        let template = generateTemplate(i);
+        $('#enemy-team').append(template);
+    }
+    start();
 });
 
 const toggleViews = (viewNumber) => {
-  if (viewNumber == 0) {
-    $('#waiting').show();
-    $('#players, #odds-display').hide();
-  } else {
-    $('#waiting').hide();
-    $('#players, #odds-display').show();
-  }
+    if (viewNumber == 0) {
+        $('#waiting').show();
+        $('#players, #odds-display').hide();
+    } else {
+        $('#waiting').hide();
+        $('#players, #odds-display').show();
+    }
 }
 
 const generateTemplate = (i) => {
-  let template;
+    let template;
 
-  if (i <= 5) {
-    template = `
+    if (i <= 5) {
+        template = `
     <div class="flip-card">
       <div class="flip-card-inner">
         <div class="flip-card-front">
@@ -53,10 +53,10 @@ const generateTemplate = (i) => {
         </div>
       </div>
     </div> `
-  }
+    }
 
-  else {
-    template = `
+    else {
+        template = `
     <div class="flip-card right">
       <div class="flip-card-inner">
         <div class="flip-card-front">
@@ -84,51 +84,70 @@ const generateTemplate = (i) => {
         </div>
       </div>
     </div> `
-  }
+    }
 
-  template.id = `slot${i}`;
-  return template;
+    template.id = `slot${i}`;
+    return template;
 }
 
 async function start() {
-  let { PythonShell } = require('python-shell');
+    let { PythonShell } = require('python-shell');
 
-  let options = {
-    mode: 'text',
-    pythonOptions: ['-u'], // get print results in real-time
-    scriptPath: './scripts',
-  };
+    let options = {
+        mode: 'text',
+        pythonOptions: ['-u'], // get print results in real-time
+        scriptPath: './scripts',
+    };
 
-  let pyshell = new PythonShell('getplayers.py', options);
+    let pyshell = new PythonShell('getplayers.py', options);
 
-  pyshell.on('message', function (message) {
-    // received a message sent from the Python script (a simple 'print' statement)
-    console.log(message);
-    const data = JSON.parse(message);
-    toggleViews(1);
-    data['champ_names'].map((name, index) => {
-      if (name !== null) {
-        $(`#champ${index + 1}`).text(name);
-        name = name.replace(/[^A-Za-z0-9]/g, '');
-        $(`#tile${index + 1}`).attr('src', `assets/champ_tiles/${name}_0.jpg`)
-      }
-    })
-    if (data['pred'] > 0) {
-      const prediction = `
+    const scraper = require('./scraper');
+    let promises = [];
+    pyshell.on('message', function (message) {
+        // received a message sent from the Python script (a simple 'print' statement)
+        const data = JSON.parse(message);
+        toggleViews(1);
+        data['champ_names'].map((name, index) => {
+            if (name !== null) {
+                // sets name
+                $(`#champ${index + 1}`).text(name);
+
+                // sets champion tile
+                name = name.replace(/[^A-Za-z0-9]/g, '');
+                $(`#tile${index + 1}`).attr('src', `assets/champ_tiles/${name}_0.jpg`)
+
+                // process matchups in pairs
+                if (index < 5) {
+                    const redChamp = data['champ_names'][index + 5];
+                    if (redChamp !== null) {
+                        const blueChamp = name.toLowerCase();
+                        const lanes = ['top', 'jungle', 'middle', 'middle', 'support'];
+                        //prints the parameters
+                        scraper.getMatchup(blueChamp, redChamp.toLowerCase(), lanes[index])
+                            .then(console.log)
+                            .catch(console.log);
+                    } else {
+                        promises.push()
+                    }
+                }
+            }
+        })
+        if (data['pred'] > 0) {
+            const prediction = `
                   <p style="color:${data['pred'] > 0.5 ? 'green' : 'red'}">
-                    ${ data['pred'].toPrecision(2) }
+                    ${ data['pred'].toPrecision(2)}
                   </p> `;
-      $('#odds').replaceWith(prediction);
-    } else {
-      toggleViews(0);
-    }
-  });
+            $('#odds').replaceWith(prediction);
+        } else {
+            toggleViews(0);
+        }
+    });
 
-  // end the input stream and allow the process to exit
-  pyshell.end(function (err, code, signal) {
-    if (err) throw err;
-    console.log('The exit code was: ' + code);
-    console.log('The exit signal was: ' + signal);
-    console.log('finished');
-  });
+    // end the input stream and allow the process to exit
+    pyshell.end(function (err, code, signal) {
+        if (err) throw err;
+        console.log('The exit code was: ' + code);
+        console.log('The exit signal was: ' + signal);
+        console.log('finished');
+    });
 }

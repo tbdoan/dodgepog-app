@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "@2dimensions/flare-js": "^1.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.5.1",
     "puppeteer": "^5.2.1",

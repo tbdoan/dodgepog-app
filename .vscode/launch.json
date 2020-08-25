@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/src/screenshot.js"
+            "program": "${workspaceFolder}/src/caller.js"
         }
     ]
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="flipcard.css">
+  <link rel="stylesheet" href="spinner.css">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
   <script>window.$ = window.jQuery = require('jquery');</script>
   <script defer src="render.js"></script>
@@ -14,11 +15,11 @@
 
 <body>
   <section id="waiting">
-    <div class="hero-body">
-      <div class="container is-fluid">
-        <h1 class="title" id="waiting-text">Waiting for game to start...</h1>
-        <img alt="loading..." class="center-self" src="assets/loading.gif" />
-      </div>
+    <h1 class="title" id="waiting-text">Waiting for game to start...</h1>
+    <div class="loader-mine">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
     </div>
   </section>
 
@@ -27,7 +28,7 @@
     </div>
     <div class="column is-one-fifth">
       <div>
-        <h1 class="middle-text middle-column">TOP</h1>
+        <h1 class="middle-text middle-column">TOP </h1>
       </div>
       <div>
         <h1 class="middle-text middle-column">JUNGLE</h1>

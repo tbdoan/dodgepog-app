@@ -1,5 +1,5 @@
 html {
-  background: url(assets/loading-background.jpeg) no-repeat center center fixed;
+  background-image: radial-gradient(circle farthest-corner at center, #3C4B57 0%, #1C262B 100%);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -13,6 +13,7 @@ body {
   max-width: 75%;
   padding: 2rem;
 }
+
 .media-left {
   margin-right: 8%;
 }
@@ -25,6 +26,8 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 4vh;
+  margin-top: 30vh;
   text-align: center;
 }
 
@@ -43,7 +46,5 @@ body {
 }
 
 .bold-text, .title {
-  color: gold;
+  color: white;
 }
-
-
