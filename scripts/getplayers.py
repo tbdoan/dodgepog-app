@@ -73,7 +73,7 @@ async def connect(connection):
 
 @connector.close
 async def disconnect(_):
-    await connect.stop()
+    await connector.stop()
 
 
 @connector.ws.register('/lol-champ-select/v1/session', event_types=('UPDATE', 'DELETE'))

@@ -33,10 +33,40 @@ body {
 
 .middle-column {
   text-align: center;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+ .left-column {
+  padding-right: 0px;
 }
 
 .right-column {
   text-align: right;
+  padding-left: 0px;
+}
+
+.middle-text {
+  height: 8vh;
+  text-align: center;
+  margin: 1vh 1vh 1vh 1vh;
+  font-family: 'Rubik', sans-serif;
+  color: white;
+  white-space: nowrap;
+}
+
+.middle-text > p {
+  font-size: 80%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.blue {
+  color: #2980b9
+}
+
+.red {
+  color: rgb(211, 79, 79);
 }
 
 .center-self {
@@ -47,4 +77,50 @@ body {
 
 .bold-text, .title {
   color: white;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  display: inline-block;
+  font-size: 70%;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 130px;
+  background-color: rgba(100,100,100,.9);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 3px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -65px;
+  font-size: 80%;
+  overflow: scroll;
+  white-space: pre;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
 }

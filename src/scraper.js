@@ -16,8 +16,11 @@ const getMatchup = async (blueChamp, redChamp, lane) => {
             }
             const wr = await page.evaluate(() => {
                 let headerText = document.querySelector('.ChampionHeader_headervs__25ruZ');
-                const innerText = headerText.children[5].children[0].innerHTML;
-                return innerText.substring(0, innerText.indexOf('<'));
+                let winrate = headerText.children[5].children[0].innerHTML;
+                winrate = winrate.substring(0, winrate.indexOf('%'));
+                let numberGames = headerText.children[5].children[1].innerHTML;
+                numberGames = numberGames.substring(0, numberGames.indexOf('<'));
+                return [winrate, numberGames];
             });
             browser.close();
             return resolve(wr);
