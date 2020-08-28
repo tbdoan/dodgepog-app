@@ -64,13 +64,14 @@ def get_champion_name(_id):
 
 @connector.ready
 async def connect(connection):
-    res = await connection.request('get', '/lol-champ-select/v1/session')
-    if res.status == 200:
-        handle_data(await res.json())
+    with open('data.txt') as json_file:
+        data = json.load(json_file)
+        handle_data(data, connection)
+    # res = await connection.request('get', '/lol-champ-select/v1/session')
+    # if res.status == 200:
+    #     handle_data(await res.json(), connection)
 
 # fired when League Client is closed (or disconnected from websocket)
-
-
 @connector.close
 async def disconnect(_):
     await connector.stop()
@@ -78,9 +79,10 @@ async def disconnect(_):
 
 @connector.ws.register('/lol-champ-select/v1/session', event_types=('UPDATE', 'DELETE'))
 async def champ_select(connection, event):
-    handle_data(event.data)
+    handle_data(event.data, connection)
 
-def handle_data(data: dict) -> None:
+def handle_data(data: dict, connection) -> None:
+    team1_summoners = [p.get('summonerId') for p in data.get('myTeam')]
     # not in order
     team1_champ_ids = [p.get('championId') for p in data.get('myTeam')]
     team2_champ_ids = [p.get('championId') for p in data.get('theirTeam')]
@@ -108,6 +110,8 @@ def handle_data(data: dict) -> None:
         'pred': float(prediction[0]),
     }
     print(json.dumps(champs))
+
+def process_all_champ_ids(data):
 
 
 connector.start()

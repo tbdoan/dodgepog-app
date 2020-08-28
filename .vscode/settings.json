@@ -1,3 +1,5 @@
 {
-    "python.formatting.provider": "autopep8"
+    "python.formatting.provider": "autopep8",
+    "python.pythonPath": "/Users/tungdoan/.pyenv/shims/python",
+    "python.autoComplete.extraPaths": ["./scripts"
 }
