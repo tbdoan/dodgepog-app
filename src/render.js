@@ -1,8 +1,7 @@
 const lanes = ['top', 'jungle', 'middle', 'bottom', 'support'];
 
 $(function () {
-  // TODO: change this back to 0
-  toggleViews(1);
+  toggleViews(0);
   for (let i = 1; i <= 5; i++) {
     let template = generateChampTemplates(i);
     $('#your-team').append(template);
@@ -148,7 +147,7 @@ async function start() {
                 .then((value) => {
                   console.log(value);
                   $(`#${lanes[index]} > p.blue`).text(parseFloat(value[0]).toPrecision(3) + '%');
-                  $(`#${lanes[index]} > p.red`).text((100.00-parseFloat(value[0])).toPrecision(3) + '%');
+                  $(`#${lanes[index]} > p.red`).text('     ' + (100.00-parseFloat(value[0])).toPrecision(3) + '%');
                   $(`#${lanes[index]} > div > span`).text(`Winrate based on ${value[1]} games`);
                 })
                 .catch(console.log);

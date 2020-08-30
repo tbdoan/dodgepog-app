@@ -62,11 +62,13 @@ body {
 }
 
 .blue {
-  color: #2980b9
+  color: #2980b9;
+  white-space: pre;
 }
 
 .red {
   color: rgb(211, 79, 79);
+  white-space: pre;
 }
 
 .center-self {
